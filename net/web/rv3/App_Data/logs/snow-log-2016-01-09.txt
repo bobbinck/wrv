@@ -1,0 +1,1 @@
+2016-01-09 17:37:25.9594 | INFO | Application is starting | 

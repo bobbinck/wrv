@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="row">
+    <div class="col-lg-12">
+        <table id="grid" class="table table-bordered table-striped table-condensed">
+            <thead>
+                <tr></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/js/datatables")
+    <script>
+        var _dataTable;
+        $(function () {
+            $('#grid')
+                .on('preXhr.dt', function (e, settings, data) {
+                    var url = 'api/guests/' + data.draw + '/' + data.length + '/' + data.start;
+                    settings.ajax.url = escape(url);
+                    //remove the parameters from the url
+                    settings.ajax.data = { searchValue: escape(data.search.value), orderBy: escape(data.columns[data.order[0].column].data + ' ' + data.order[0].dir) };
+                }).DataTable({
+                columns: JSON.parse('@Html.Raw(ViewBag.Columns)'),
+                order: [[1, 'asc']],
+                pageLength: 10,
+                lengthMenu: [10, 20, 50, 100],
+                pagingType: 'simple_numbers',
+                processing: true,
+                serverSide: true,
+                language: {
+                    search: 'Search: ',
+                    zeroRecords: function () {
+                        if ($('div.dataTables_filter input').val()) {
+                            return 'No data available.';
+                        } else {
+                            return 'No data available.';
+                        }
+                    },
+                    processing: 'Fetching data...'
+                },
+                ajax: {
+                    url:  'api/guests',
+                    type: 'GET',
+                    cache: true,
+                    error: function (xhr, textStatus, error) {
+                        if (textStatus === 'timeout') {
+                            alert('The server took too long to send the data.');
+                        }
+                        else {
+                            alert('An error occurred on the server. Please try again in a minute.');
+                        }
+                        console.error(error);
+                    }
+                }
+            });
+        });
+    </script>
+
+    @*@Html.Partial("__ichTemplates")*@
+
+}

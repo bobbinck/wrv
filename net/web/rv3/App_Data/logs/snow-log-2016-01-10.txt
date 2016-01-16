@@ -1,0 +1,4 @@
+2016-01-10 11:57:55.9181 | INFO | Application is starting | 
+2016-01-10 12:21:24.5270 | INFO | Application is starting | 
+2016-01-10 19:13:57.8809 | INFO | Application is starting | 
+2016-01-10 19:21:22.0212 | INFO | Application is starting | 
